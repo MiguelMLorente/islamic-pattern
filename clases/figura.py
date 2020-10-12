@@ -1,8 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import math as M
-from punto import Punto
-from segmento import Segmento
+from clases.punto import Punto
+from clases.segmento import Segmento
 
 class Figura:
 
