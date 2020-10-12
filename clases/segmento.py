@@ -28,7 +28,7 @@ class Segmento:
     def draw(self):
         x = np.array([self.inicial.x, self.final.x])
         y = np.array([self.inicial.y, self.final.y])
-        plt.plot(x, y)
+        plt.plot(x, y,"xkcd:navy")
 
     def draw_v_henkins(self):
         x1 = np.array([self.centro.x, self.centro.x + self.v_henkins[0].x])
@@ -36,7 +36,7 @@ class Segmento:
         x2 = np.array([self.centro.x, self.centro.x + self.v_henkins[1].x])
         y2 = np.array([self.centro.y, self.centro.y + self.v_henkins[1].y])
 
-        plt.plot(x1,y1)
-        plt.plot(x2,y2)
+        plt.plot(x1,y1,"xkcd:goldenrod")
+        plt.plot(x2,y2,"xkcd:goldenrod")
         #plt.plot(np.array([inicial.x, final_1[0]]), np.array([inicial.y, final_1[1]]))
         #plt.plot(np.array([inicial.x, final_2[0]]), np.array([inicial.y, final_2[1]]))
