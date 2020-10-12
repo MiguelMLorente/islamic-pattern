@@ -22,6 +22,11 @@ class Punto:
     def invert(self):
         result = Punto(-self.x, -self.y)
         return result
+
+    def normalize(self, size=1):
+        d = M.sqrt(pow(self.x,2)+pow(self.y,2))/size
+        result = Punto(self.x/d, self.y/d)
+        return result
     
 class Segmento:
 
@@ -37,11 +42,12 @@ class Segmento:
         print("\t Centro: ( x , y ) = (", self.centro.x, ",", self.centro.y, ")")
         print("\t Direccion: v = (", self.direccion.x, ",", self.direccion.y, ")")
 
-    def crear_v_henkins(self,angle):
+    def crear_v_henkins(self,angle,size = 1):
         #v_henkins es un vector (class Punto)
         self.v_henkins = []
-        self.v_henkins.append(self.direccion.rotate(angle))
-        self.v_henkins.append(self.direccion.invert().rotate(-angle))
+
+        self.v_henkins.append(self.direccion.rotate(angle).normalize(size))
+        self.v_henkins.append(self.direccion.invert().rotate(-angle).normalize(size))
 
     def draw(self):
         x = np.array([self.inicial.x, self.final.x])
@@ -49,9 +55,13 @@ class Segmento:
         plt.plot(x, y)
 
     def draw_v_henkins(self):
-        inicial = np.array([self.centro.x, self.centro.y])
-        final_1 = np.array([self.centro.x + self.v_henkins[0].x, self.centro.y + self.v_henkins[0].y])
-        final_2 = np.array([self.centro.x + self.v_henkins[1].x, self.centro.y + self.v_henkins[1].y])
+        x1 = np.array([self.centro.x, self.centro.x + self.v_henkins[0].x])
+        y1 = np.array([self.centro.y, self.centro.y + self.v_henkins[0].y])
+        x2 = np.array([self.centro.x, self.centro.x + self.v_henkins[1].x])
+        y2 = np.array([self.centro.y, self.centro.y + self.v_henkins[1].y])
+
+        plt.plot(x1,y1)
+        plt.plot(x2,y2)
         #plt.plot(np.array([inicial.x, final_1[0]]), np.array([inicial.y, final_1[1]]))
         #plt.plot(np.array([inicial.x, final_2[0]]), np.array([inicial.y, final_2[1]]))
 
@@ -82,9 +92,9 @@ class Figura:
             print("Segmento",i, end =  ': ')
             self.lados[i].show()
 
-    def crear_v_henkins(self,angle):
+    def crear_v_henkins(self,angle,size=0.5):
         for i in range(0,self.n_vertices):
-            self.lados[i].crear_v_henkins(angle)
+            self.lados[i].crear_v_henkins(angle,size)
 
 
     def draw_lados(self):
@@ -96,10 +106,11 @@ class Figura:
             self.lados[i].draw_v_henkins()
 
 delta = 60
+henkins_size = 0.6
 
 MiCuadrado = Figura(4,np.array([[-1, -1], [1, -1], [1, 1], [-1, 1]]))  
-MiCuadrado.crear_v_henkins(delta)
-MiCuadrado.show()
+MiCuadrado.crear_v_henkins(delta,henkins_size)
+#MiCuadrado.show()
 MiCuadrado.draw_lados()
 MiCuadrado.draw_v_henkins()
 plt.show()
