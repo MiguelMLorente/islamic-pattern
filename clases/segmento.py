@@ -1,6 +1,5 @@
 import numpy as np
 from matplotlib import pyplot as plt
-import math as M
 from clases.punto import Punto
 
 
