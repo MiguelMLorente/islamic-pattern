@@ -1,8 +1,10 @@
 import numpy as np
+import math as M
 from clases.punto import Punto
 from clases.segmento import Segmento
 from clases.vector import Vector
 from clases.figura import Figura
+
 
 class Mosaico:
 
@@ -12,6 +14,8 @@ class Mosaico:
          
         if Option == 1:
             self.mosaico_cuadrado(10,10,5,5)
+        if Option == 2:
+            self.mosaico_triangular(2,5,3)
 
     def add_poligonos(self, L):
         self.poligonos.append(L)
@@ -30,6 +34,26 @@ class Mosaico:
                 V = np.array([[i*step_h, j*step_v], [(i+1)*step_h, j*step_v], [(i+1)*step_h, (j+1)*step_v], [i*step_h, (j+1)*step_v]])
                 self.poligonos.append(Figura(N,V))
                 self.n_poligonos = self.n_poligonos + 1
+
+    def mosaico_triangular(self, lado, n_horizontal, n_vertical):
+        self.poligonos.clear()
+        self.n_poligonos = 0
+        self.__init__
+        
+        N = 3
+        step_h = lado
+        step_v = lado*M.sqrt(3)
+        for i in range(0, n_horizontal):
+            for j in range(0, n_vertical):
+                V = np.array([[i*step_h, j*step_v], [(i+1)*step_h, j*step_v], [(i+0.5)*step_h, (j+0.5)*step_v]])
+                self.poligonos.append(Figura(N,V))
+                V = np.array([[i*step_h, j*step_v], [(i+0.5)*step_h, (j+0.5)*step_v], [(i-0.5)*step_h, (j+0.5)*step_v]])
+                self.poligonos.append(Figura(N,V))
+                V = np.array([[(i+0.5)*step_h, (j+0.5)*step_v], [(i+1)*step_h, (j+1)*step_v], [i*step_h, (j+1)*step_v]])
+                self.poligonos.append(Figura(N,V))
+                V = np.array([[(i-0.5)*step_h, (j+0.5)*step_v], [(i+0.5)*step_h, (j+0.5)*step_v], [i*step_h, (j+1)*step_v]])
+                self.poligonos.append(Figura(N,V))
+                self.n_poligonos = self.n_poligonos + 4
 
     def dibujar_mosaico_sin_henkins(self):
         for i in range(0,self.n_poligonos):
