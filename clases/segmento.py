@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from clases.punto import Punto
+from clases.vector import Vector
 
 
 class Segmento:
@@ -9,7 +10,9 @@ class Segmento:
         self.inicial = A
         self.final = B
         self.centro = Punto( (A.x + B.x)/2, (A.y + B.y)/2 )
-        self.direccion = Punto( B.x - A.x, B.y - A.y )
+        self.direccion = Vector( B.x - A.x, B.y - A.y )
+        self.henkins_final = []
+        self.henkins = []
 
     def show(self):
         print("Desde: ( x , y ) = (", self.inicial.x, ",", self.inicial.y, ")")
