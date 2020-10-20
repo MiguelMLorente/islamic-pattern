@@ -5,6 +5,7 @@ from clases.vector import Vector
 from clases.geometria import interseccion2D
 from clases.geometria import interseccion3D
 from clases.geometria import cross_product
+from clases.geometria import rotate
 
 
 class Figura:
@@ -13,10 +14,11 @@ class Figura:
         self.vertices = []
         self.n_vertices = N
         self.lados = []
-        
-
+        self.v_henkins = {}
+        self.henkins = []
+        self.n_henkins = 0
         for i in range(0,N):
-            P = Punto(V[i,0],V[i,1])
+            P = Punto(V[i,0],V[i,1],V[i,2])
             self.vertices.append(P)
 
         for i in range(0,N):
@@ -39,7 +41,10 @@ class Figura:
 
     def crear_v_henkins(self,angle,size):
         for i in range(0,self.n_vertices):
-            self.lados[i].crear_v_henkins(angle,size)
+
+            self.v_henkins[str(i)+','+str(0)] = rotate(self.lados[i].direccion, angle, self.v_normal).normalize(size)
+            self.v_henkins[str(i)+','+str(1)] = rotate(self.lados[i].direccion.invert(), -angle, self.v_normal).normalize(size)
+            #v_henkins es un vector
 
     def intersecar_henkins(self):
         Lista_de_puntos = []
@@ -47,14 +52,14 @@ class Figura:
         for i in range(0, self.n_vertices):
             P = self.lados[i].centro
             for j in range(0,2):
-                u = self.lados[i].v_henkins[j]
+                u = self.v_henkins[str(i)+','+str(j)]
                 for k in range(0, self.n_vertices): 
                     if (k==i):
                         continue
                     Q = self.lados[k].centro
                     for l in range(0,2):
-                        v = self.lados[k].v_henkins[l]
-                        dummy = casi_interseccion(P, u, Q, v)
+                        v = self.v_henkins[str(k)+','+str(l)]
+                        dummy = interseccion3D(P, u, Q, v)
                         result = dummy[0]
 
                         mu_u = dummy[1][0]
@@ -64,28 +69,24 @@ class Figura:
                             distancia.append(mu_u * u.modulo() + mu_v * v.modulo())
                 # Seleccionar el mejor de la lista    
                 indice  = distancia.index(min(distancia))
-                self.lados[i].henkins_final.append(Lista_de_puntos[indice])
-                
+                h = Lista_de_puntos[indice]
+                self.henkins.append(Segmento(P, h))
+                self.n_henkins = self.n_henkins + 1
+
+
                 Lista_de_puntos.clear()
                 distancia.clear()
     
-    def crear_seg_henkins(self):
-        for i in range(0, self.n_vertices):
-            for j in range(0,2):
-                self.lados[i].henkins.append(Segmento(self.lados[i].centro, self.lados[i].henkins_final[j]))
-
     def crear_henkins(self, angle, size = 0.5):
         self.crear_v_henkins(angle,size)
         self.intersecar_henkins()
-        self.crear_seg_henkins()
 
     def draw_lados(self):
         for i in range(0,self.n_vertices):
             self.lados[i].draw()
 
     def draw_henkins(self):
-        for i in range(0,self.n_vertices):
-            for j in range(0,2):
-                self.lados[i].henkins[j].draw()       
+        for i in range(0,self.n_henkins):
+            self.henkins[i].draw()       
 
 

@@ -4,7 +4,7 @@ from clases.punto import Punto
 from clases.vector import Vector
 from mpl_toolkits.mplot3d import Axes3D
 from clases.geometria import rotate
-
+from mpl_toolkits import mplot3d
 
 class Segmento:
 
@@ -21,13 +21,6 @@ class Segmento:
         print("\t Hasta: ( x , y , z ) = (", self.final.x, self.final.y, ",", self.final.z, ")")
         print("\t Centro: ( x , y ,z ) = (", self.centro.x, ",", self.centro.y, ",", self.centro.z, ")")
         print("\t Direccion: v = (", self.direccion.x, ",", self.direccion.y, ",", self.direccion.z, ")")
-
-    def crear_v_henkins(self,angle,size = 1):
-        #v_henkins es un vector (class Punto)
-        self.v_henkins = []
-
-        self.v_henkins.append( rotate(self.direccion, angle).normalize(size) )
-        self.v_henkins.append( rotate(self.direccion.invert(), -angle).normalize(size) )
 
     def draw(self):
         x = np.array([self.inicial.x, self.final.x])
