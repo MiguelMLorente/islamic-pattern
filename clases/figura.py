@@ -2,23 +2,9 @@ import numpy as np
 from clases.punto import Punto
 from clases.segmento import Segmento
 from clases.vector import Vector
-# from clases.geometria import interseccion
-
-def interseccion(P, u, Q, v):
-    if u.x * v.y != u.y * v.x:
-        mu_u = ((P.x - Q.x) * v.y + (Q.y-P.y) * v.x) / (u.y*v.x - u.x*v.y)
-        mu_v = 0
-        if v.x != 0:
-            mu_v = (P.x - Q.x + mu_u*u.x) / v.x
-        else:
-            mu_v = (P.y - Q.y + mu_u*u.y) / v.y
-                
-        result = Punto(P.x + mu_u*u.x, P.y + mu_u*u.y)
-    else:
-        result = Punto(0,0)
-        mu_u = -1
-        mu_v = -1
-    return result, mu_u, mu_v
+from clases.geometria import interseccion2D
+from clases.geometria import interseccion3D
+from clases.geometria import cross_product
 
 
 class Figura:
@@ -27,6 +13,8 @@ class Figura:
         self.vertices = []
         self.n_vertices = N
         self.lados = []
+        
+
         for i in range(0,N):
             P = Punto(V[i,0],V[i,1])
             self.vertices.append(P)
@@ -38,6 +26,7 @@ class Figura:
                 L = Segmento(self.vertices[N-1], self.vertices[0])
             self.lados.append(L)
 
+        self.v_normal = cross_product(self.lados[0].direccion, self.lados[1].direccion).normalize()
 
     def show(self):
         for i in range(0,self.n_vertices):
@@ -65,7 +54,11 @@ class Figura:
                     Q = self.lados[k].centro
                     for l in range(0,2):
                         v = self.lados[k].v_henkins[l]
-                        result, mu_u, mu_v = interseccion(P, u, Q, v)
+                        dummy = casi_interseccion(P, u, Q, v)
+                        result = dummy[0]
+
+                        mu_u = dummy[1][0]
+                        mu_v = dummy[1][1]
                         if (mu_u >= 0) and (mu_v >= 0):
                             Lista_de_puntos.append(result)
                             distancia.append(mu_u * u.modulo() + mu_v * v.modulo())
@@ -75,25 +68,20 @@ class Figura:
                 
                 Lista_de_puntos.clear()
                 distancia.clear()
+    
     def crear_seg_henkins(self):
         for i in range(0, self.n_vertices):
             for j in range(0,2):
                 self.lados[i].henkins.append(Segmento(self.lados[i].centro, self.lados[i].henkins_final[j]))
-
 
     def crear_henkins(self, angle, size = 0.5):
         self.crear_v_henkins(angle,size)
         self.intersecar_henkins()
         self.crear_seg_henkins()
 
-
     def draw_lados(self):
         for i in range(0,self.n_vertices):
             self.lados[i].draw()
-
-    # def draw_v_henkins(self):
-    #     for i in range(0,self.n_vertices):
-    #         self.lados[i].draw_v_henkins()
 
     def draw_henkins(self):
         for i in range(0,self.n_vertices):
