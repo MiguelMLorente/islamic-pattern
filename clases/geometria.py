@@ -5,15 +5,16 @@ import math as M
 
 def interseccion3D(P, u, Q, v):
     result = []
+    perp = cross_product(u,v)
 
-    if not ((u.x*v.y == u.y*v.x) and (u.x*v.z == u.z*v.x)):
+    if not ((perp.x == 0) and (perp.y == 0) and (perp.z == 0)):
         X = Q.x - P.x
         Y = Q.y - P.y
         Z = Q.z - P.z
 
         w = np.array([X,Y,Z])
 
-        perp = cross_product(u,v).normalize()
+        perp = perp.normalize()
 
         A = np.array([[u.x , -v.x , perp.x],
                     [u.y , -v.y , perp.y],

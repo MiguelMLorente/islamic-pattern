@@ -41,6 +41,7 @@ class Figura:
 
     def crear_v_henkins(self,angle,size):
         for i in range(0,self.n_vertices):
+            #v_henkins['i,j'] donde i es el lado y j es 1 o 2 (direccion escogida)
 
             self.v_henkins[str(i)+','+str(0)] = rotate(self.lados[i].direccion, angle, self.v_normal).normalize(size)
             self.v_henkins[str(i)+','+str(1)] = rotate(self.lados[i].direccion.invert(), -angle, self.v_normal).normalize(size)
