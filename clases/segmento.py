@@ -22,11 +22,22 @@ class Segmento:
         print("\t Centro: ( x , y ,z ) = (", self.centro.x, ",", self.centro.y, ",", self.centro.z, ")")
         print("\t Direccion: v = (", self.direccion.x, ",", self.direccion.y, ",", self.direccion.z, ")")
 
-    def draw(self):
+    def draw(self,opt = 1):
         x = np.array([self.inicial.x, self.final.x])
         y = np.array([self.inicial.y, self.final.y])
         z = np.array([self.inicial.z, self.final.z])
-        plt.plot(x, y, "xkcd:navy")
+        if opt == 3:
+            color = "gold"
+        if opt == 4:
+            color = "lime chartreuse"
+        if opt == 6:
+            color = "blue"
+        if opt == 8:
+            color = "red"
+        if opt == 12:
+            color = "aqua"
+
+        plt.plot(x, y, color)
 
     # def draw_v_henkins(self):
     #     x1 = np.array([self.centro.x, self.centro.x + self.v_henkins[0].x])

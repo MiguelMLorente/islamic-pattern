@@ -7,7 +7,7 @@ def interseccion3D(P, u, Q, v):
     result = []
     perp = cross_product(u,v)
 
-    if not ((perp.x == 0) and (perp.y == 0) and (perp.z == 0)):
+    if (perp.modulo()>0.0001):
         X = Q.x - P.x
         Y = Q.y - P.y
         Z = Q.z - P.z
@@ -19,6 +19,10 @@ def interseccion3D(P, u, Q, v):
         A = np.array([[u.x , -v.x , perp.x],
                     [u.y , -v.y , perp.y],
                     [u.z , -v.z , perp.z]])
+
+        if np.absolute(np.linalg.det(A))<=0.001:
+            print('aqui')
+            print(u.x * v.y - u.y * v.x)
 
         mu = np.matmul(np.linalg.inv(A) , w)
         
