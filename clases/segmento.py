@@ -29,7 +29,7 @@ class Segmento:
         if opt == 3:
             color = "gold"
         if opt == 4:
-            color = "lime chartreuse"
+            color = "lime"
         if opt == 6:
             color = "blue"
         if opt == 8:

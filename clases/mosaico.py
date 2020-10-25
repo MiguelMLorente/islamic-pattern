@@ -17,13 +17,13 @@ class Mosaico:
         if Option == 2:
             self.mosaico_triangular(2,5,3)
         if Option == 3:
-            self.cubo(5)
+            self.cubo(1)
         if Option == 4:
-            self.mosaico_octogonos_cuadrados(5,3,5)
+            self.mosaico_octogonos_cuadrados(1,3,5)
         if Option == 6:
-            self.mosaico_hexagonos_cuadrados_triangulos(4,4,5)
+            self.mosaico_hexagonos_cuadrados_triangulos(1,4,5)
         if Option == 7:
-            self.mosaico_dodecagonos_triangulos(8,3,3)   
+            self.mosaico_dodecagonos_triangulos(1,3,3)   
 
 
     def add_poligonos(self, L):
@@ -254,3 +254,8 @@ class Mosaico:
         for i in range(0,self.n_poligonos):
             self.poligonos[i].crear_henkins(angle)
             self.poligonos[i].draw_henkins()
+
+    def crear_henkins(self,angle):
+        for i in range(0,self.n_poligonos):
+            self.poligonos[i].crear_henkins(angle)
+        

@@ -35,7 +35,7 @@ henkins_size = 0.6
 # plt.grid()
 # plt.show()
 
-Mosaico_dodecagonos_triangulos = Mosaico(7)
+Mosaico_dodecagonos_triangulos = Mosaico(6)
 Mosaico_dodecagonos_triangulos.dibujar_mosaico_solo_henkins(delta)
 plt.grid()
 plt.show()
