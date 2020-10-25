@@ -88,6 +88,6 @@ class Figura:
 
     def draw_henkins(self):
         for i in range(0,self.n_henkins):
-            self.henkins[i].draw()       
+            self.henkins[i].draw(self.n_vertices)       
 
 
