@@ -221,8 +221,9 @@ def main():
             glRotate(1,x_rotate,y_rotate,z_rotate)
         if deltaFlag != 0:
             delta += deltaFlag * 10
-            if delta > 0 and delta < 90:
-                verticesCuboHenkins,henkinsCuboHenkins = ConstructorCuboHenkins(delta)
+            delta = max(delta, 0)
+            delta = min(delta, 90)
+            verticesCuboHenkins,henkinsCuboHenkins = ConstructorCuboHenkins(delta)
 
         
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
